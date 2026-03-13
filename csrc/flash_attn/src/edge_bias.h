@@ -6,22 +6,20 @@
 namespace FLASH_NAMESPACE {
 using namespace cute;
 
-// Cooperative load: 2KB bitset from global to shared via uint4 (128-bit)
+template <int kBitsetUint4>
 __forceinline__ __device__ void load_bitset_to_smem(
-    uint32_t *__restrict__ smem_bits,           // [512] in shared mem
-    const uint32_t *__restrict__ global_bits,   // [512] in global mem
+    uint32_t *__restrict__ smem_bits,
+    const uint32_t *__restrict__ global_bits,
     const int tidx) {
-    // 2048 bytes / 16 bytes per uint4 = 128 loads
-    // Kernel has 128 or 256 threads; use first 128
 
     #ifdef DEBUG
     assert(reinterpret_cast<uintptr_t>(smem_bits) % 16 == 0);
     assert(reinterpret_cast<uintptr_t>(global_bits) % 16 == 0);
     #endif
-    
+
     uint4 *dst = reinterpret_cast<uint4 *>(smem_bits);
     const uint4 *src = reinterpret_cast<const uint4 *>(global_bits);
-    if (tidx < 128) {
+    if (tidx < kBitsetUint4) {
         dst[tidx] = src[tidx];
     }
 }
@@ -34,7 +32,6 @@ __forceinline__ __device__ bool has_edge_bit(
 }
 
 // Apply edge bias to acc_s (MMA=4, MMA_M, MMA_N) format
-// Follows mask.h Mask::apply_mask pattern (lines 166-207)
 template <int kBlockN, typename Engine, typename Layout>
 __forceinline__ __device__ void apply_edge_bias(
     Tensor<Engine, Layout> &tensor_,
@@ -44,7 +41,6 @@ __forceinline__ __device__ void apply_edge_bias(
     const int row_idx_offset,
     const int warp_row_stride) {
     static_assert(Layout::rank == 3, "Only support 3D Tensor");
-    // Reshape from (MMA=4, MMA_M, MMA_N) to (nrow=(2, MMA_M), ncol=(2, MMA_N))
     Tensor tensor = make_tensor(tensor_.data(),
         FLASH_NAMESPACE::convert_layout_acc_rowcol(tensor_.layout()));
     const int lane_id = threadIdx.x % 32;

@@ -979,6 +979,7 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
         cu_q_blocks,
         cu_k_blocks,
         edge_bias_max_k_blocks,
+        edge_bias_bwd,
     ):
         is_grad = is_grad_enabled and any(
             x.requires_grad for x in [q, k, v]
@@ -1029,14 +1030,20 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
             ctx.softcap = softcap
             ctx.alibi_slopes = alibi_slopes
             ctx.deterministic = deterministic
-            ctx.edge_bias_tile_offsets = edge_bias_tile_offsets
-            ctx.edge_bias_tile_k_indices = edge_bias_tile_k_indices
-            ctx.edge_bias_bitsets = edge_bias_bitsets
             ctx.edge_bias_scale = edge_bias_scale
-            ctx.edge_bias_tile_map = edge_bias_tile_map
-            ctx.cu_q_blocks = cu_q_blocks
-            ctx.cu_k_blocks = cu_k_blocks
-            ctx.edge_bias_max_k_blocks = edge_bias_max_k_blocks
+            if edge_bias_bwd is not None:
+                (ctx.edge_bias_tile_offsets, ctx.edge_bias_tile_k_indices,
+                 ctx.edge_bias_bitsets, ctx.edge_bias_tile_map,
+                 ctx.cu_q_blocks, ctx.cu_k_blocks,
+                 ctx.edge_bias_max_k_blocks) = edge_bias_bwd
+            else:
+                ctx.edge_bias_tile_offsets = edge_bias_tile_offsets
+                ctx.edge_bias_tile_k_indices = edge_bias_tile_k_indices
+                ctx.edge_bias_bitsets = edge_bias_bitsets
+                ctx.edge_bias_tile_map = edge_bias_tile_map
+                ctx.cu_q_blocks = cu_q_blocks
+                ctx.cu_k_blocks = cu_k_blocks
+                ctx.edge_bias_max_k_blocks = edge_bias_max_k_blocks
 
         out = out_padded[..., :head_size_og]
         return out if not return_softmax else (out, softmax_lse, S_dmask)
@@ -1091,7 +1098,8 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
                 None, None, None, None, None,  # alibi_slopes, deterministic, return_softmax, block_table, is_grad_enabled
                 None, None, None,  # edge_bias_tile_offsets, tile_k_indices, bitsets
                 d_eb,  # edge_bias_scale
-                None, None, None, None)  # edge_bias_tile_map, cu_q_blocks, cu_k_blocks, edge_bias_max_k_blocks
+                None, None, None, None,  # edge_bias_tile_map, cu_q_blocks, cu_k_blocks, edge_bias_max_k_blocks
+                None)  # edge_bias_bwd
 
 
 def flash_attn_qkvpacked_func(
@@ -1491,6 +1499,7 @@ def flash_attn_varlen_func(
     cu_q_blocks=None,
     cu_k_blocks=None,
     edge_bias_max_k_blocks=None,
+    edge_bias_bwd=None,
 ):
     """dropout_p should be set to 0.0 during evaluation
     Supports multi-query and grouped-query attention (MQA/GQA) by passing in K, V with fewer heads
@@ -1538,6 +1547,9 @@ def flash_attn_varlen_func(
         return_attn_probs: bool. Whether to return the attention probabilities. This option is for
            testing only. The returned probabilities are not guaranteed to be correct
            (they might not have the right scaling).
+        edge_bias_bwd: optional tuple of (tile_offsets, tile_k_indices, bitsets,
+            tile_map, cu_q_blocks, cu_k_blocks, max_k_blocks) built with backward
+            kernel block sizes.  When None, backward reuses the forward edge bias.
     Return:
         out: (total, nheads, headdim).
         softmax_lse [optional, if return_attn_probs=True]: (nheads, total_q_seqlen). The
@@ -1573,6 +1585,7 @@ def flash_attn_varlen_func(
         cu_q_blocks,
         cu_k_blocks,
         edge_bias_max_k_blocks,
+        edge_bias_bwd,
     )
 
 

@@ -81,8 +81,9 @@ void run_flash_fwd(Flash_fwd_params &params, cudaStream_t stream) {
                                 // auto kernel = &flash_fwd_kernel<Kernel_traits, false, Is_causal, false, false, true, true, false>;
                                 // printf("IsEvenMNConst = %d, IsEvenKConst = %d, Is_local = %d, Is_causal = %d, ReturnSoftmaxConst = %d, Is_dropout = %d\n", int(IsEvenMNConst), int(IsEvenKConst), int(Is_local), int(Is_causal), int(ReturnSoftmaxConst), int(Is_dropout));
                                 // auto kernel = &flash_fwd_kernel<Kernel_traits, false, Is_causal, false, true, true, false>;
+                                constexpr size_t kBitsetBytes = Kernel_traits::kBlockM * Kernel_traits::kBlockN / 8;
                                 constexpr size_t smem_size_edge = (smem_size + 15) & ~15;
-                                const size_t smem_total = (Has_edge_bias ? smem_size_edge + 2048 : smem_size);
+                                const size_t smem_total = (Has_edge_bias ? smem_size_edge + kBitsetBytes : smem_size);
                                 if (smem_total >= 48 * 1024) {
                                     C10_CUDA_CHECK(cudaFuncSetAttribute(
                                         kernel, cudaFuncAttributeMaxDynamicSharedMemorySize, smem_total));
@@ -125,8 +126,9 @@ void run_flash_splitkv_fwd(Flash_fwd_params &params, cudaStream_t stream) {
                                     auto kernel = &flash_fwd_splitkv_kernel<Kernel_traits, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && !Append_KV && IsEvenKConst && !Is_local && !Has_alibi && Kernel_traits::kHeadDim <= 128, IsEvenKConst && !Has_alibi, Is_softcap, Split, Append_KV, Has_edge_bias>;
                                     // auto kernel = &flash_fwd_splitkv_kernel<Kernel_traits, Is_causal, false, true, Split, Append_KV>;
                                     // auto kernel = &flash_fwd_splitkv_kernel<Kernel_traits, Is_causal, false, IsEvenKConst>;
+                                    constexpr size_t kBitsetBytes = Kernel_traits::kBlockM * Kernel_traits::kBlockN / 8;
                                     constexpr size_t smem_size_edge = (smem_size + 15) & ~15;
-                                    const size_t smem_total = (Has_edge_bias ? smem_size_edge + 2048 : smem_size);
+                                    const size_t smem_total = (Has_edge_bias ? smem_size_edge + kBitsetBytes : smem_size);
                                     if (smem_total >= 48 * 1024) {
                                         C10_CUDA_CHECK(cudaFuncSetAttribute(
                                             kernel, cudaFuncAttributeMaxDynamicSharedMemorySize, smem_total));

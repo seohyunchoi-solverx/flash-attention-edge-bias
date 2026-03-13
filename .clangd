@@ -1,0 +1,39 @@
+CompileFlags:
+  Add:
+    - "-xc++"
+    - "-std=c++17"
+    - "-I/home/seohyun/flash-attention/csrc/flash_attn"
+    - "-I/home/seohyun/flash-attention/csrc/flash_attn/src"
+    - "-I/home/seohyun/flash-attention/csrc/cutlass/include"
+    - "-I/usr/local/cuda/include"
+    - "-D__CUDACC__"
+    - "-D__CUDA_ARCH__=800"
+    - "-D__CUDA_ARCH_LIST__=800"
+    - "-D__host__=__attribute__((host))"
+    - "-D__device__=__attribute__((device))"
+    - "-D__global__=__attribute__((global))"
+    - "-D__shared__=__attribute__((shared))"
+    - "-D__launch_bounds__(...)="
+    - "-D__forceinline__=inline __attribute__((always_inline))"
+    - "-ferror-limit=0"
+  Remove:
+    - "-forward-unknown-to-host-compiler"
+    - "--generate-code*"
+    - "-gencode*"
+
+Diagnostics:
+  Suppress:
+    - "pp_file_not_found"
+    - "unknown_typename"
+    - "typecheck_invalid_operands"
+    - "unknown_attribute"
+    - "undeclared_var_use"
+    - "ovl_no_viable_function_in_call"
+    - "err_no_member"
+    - "too_many_template_args"
+    - "no_matching_function"
+    - "init_conversion_failed"
+    - "*"
+  ClangTidy:
+    Remove:
+      - "*"

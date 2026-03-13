@@ -1,0 +1,36 @@
+=== BUILD FINISHED ===
+Build exit from terminal:
+---
+exit_code: 0
+elapsed_ms: 17918534
+ended_at: 2026-03-10T13:09:12.780Z
+---
+
+=== RUNNING TESTS ===
+============================================================
+Flash Attention varlen tests
+============================================================
+
+--- Baseline tests (no edge bias) ---
+[single_seq] max_diff=0.003775, mean_diff=0.000762
+[single_seq] PASSED
+
+[multi_seq]  max_diff=0.007531, mean_diff=0.000790
+[multi_seq]  PASSED
+
+[fp16]       max_diff=0.000968, mean_diff=0.000098
+[fp16]       PASSED
+
+Traceback (most recent call last):
+  File "/home/seohyun/flash-attention/tests/test_edge_bias.py", line 477, in <module>
+    test_flash_vs_vanilla_backward()
+  File "/home/seohyun/flash-attention/tests/test_edge_bias.py", line 266, in test_flash_vs_vanilla_backward
+    loss_flash.backward()
+  File "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/_tensor.py", line 630, in backward
+    torch.autograd.backward(
+  File "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/autograd/__init__.py", line 364, in backward
+    _engine_run_backward(
+  File "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/autograd/graph.py", line 865, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+RuntimeError: function FlashAttnVarlenFuncBackward returned a gradient different than None at position 21, but the corresponding forward input was not a Variable
+=== TEST EXIT CODE: 1 ===

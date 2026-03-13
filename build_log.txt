@@ -1,0 +1,1586 @@
+Resolved 29 packages in 12ms
+   Building flash-attention @ file:///home/seohyun/flash-attention
+  × Failed to build `flash-attention @ file:///home/seohyun/flash-attention`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `setuptools.build_meta:__legacy__.build_editable` failed (exit
+      status: 1)
+
+      [stdout]
+
+
+      torch.__version__  = 2.10.0+cu128
+
+
+      running editable_wheel
+      creating
+      /var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention.egg-info
+      writing
+      /var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention.egg-info/PKG-INFO
+      writing dependency_links to
+      /var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention.egg-info/dependency_links.txt
+      writing requirements to
+      /var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention.egg-info/requires.txt
+      writing top-level names to
+      /var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention.egg-info/top_level.txt
+      writing manifest file
+      '/var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention.egg-info/SOURCES.txt'
+      Auto set MAX_JOBS to `29`, NVCC_THREADS to `4`. If you see memory
+      pressure, please use a lower `MAX_JOBS=N` or `NVCC_THREADS=N` value.
+      reading manifest file
+      '/var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention.egg-info/SOURCES.txt'
+      reading manifest template 'MANIFEST.in'
+      adding license file 'LICENSE'
+      adding license file 'AUTHORS'
+      writing manifest file
+      '/var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention.egg-info/SOURCES.txt'
+      creating
+      '/var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention-0.1.0.dist-info'
+      creating
+      /var/cache/uv/builds-v0/.tmpjQVp31/.tmp-2duelkbt/flash_attention-0.1.0.dist-info/WHEEL
+      running build_py
+      running build_ext
+      building 'flash_attn_2_cuda' extension
+      creating /tmp/tmpvbfi896r.build-temp/csrc/flash_attn
+      creating /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src
+      [1/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim128_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim128_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [2/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim192_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim192_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [3/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim128_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim128_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [4/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim128_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim128_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [5/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim192_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim192_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [6/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim128_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim128_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim128_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [7/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim192_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim192_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [8/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim192_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim192_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim192_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [9/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim256_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim256_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [10/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim256_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim256_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [11/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim256_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim256_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [12/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim32_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim32_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [13/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_fwd_hdim128_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_fwd_hdim128_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [14/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim256_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim256_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim256_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [15/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim32_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim32_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [16/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_fwd_hdim128_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_fwd_hdim128_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [17/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_fwd_hdim128_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_fwd_hdim128_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [18/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim32_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim32_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [19/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim96_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim96_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [20/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_fwd_hdim128_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [21/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim64_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim64_fp16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [22/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim96_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim96_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [23/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim64_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim64_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [24/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim64_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim64_fp16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_fp16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [25/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim96_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim96_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [26/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim64_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim64_bf16_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim64_bf16_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [27/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim96_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim96_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim96_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [28/73] /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim32_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      FAILED: [code=1]
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_causal_sm80.o
+      /usr/local/cuda/bin/nvcc
+      --generate-dependencies-with-compile --dependency-output
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_causal_sm80.o.d
+      -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/src/flash_bwd_hdim32_bf16_causal_sm80.cu
+      -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/src/flash_bwd_hdim32_bf16_causal_sm80.o
+      -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__
+      -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__
+      --expt-relaxed-constexpr --compiler-options ''"'"'-fPIC'"'"'' -O3
+      -std=c++17 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__
+      -U__CUDA_NO_HALF2_OPERATORS__ -U__CUDA_NO_BFLOAT16_CONVERSIONS__
+      --expt-relaxed-constexpr --expt-extended-lambda --use_fast_math
+      -gencode arch=compute_80,code=sm_80 -gencode arch=compute_90,code=sm_90
+      -gencode arch=compute_120,code=compute_120 --threads 4
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      nvcc fatal   : Unsupported gpu architecture 'compute_120'
+      [29/73] c++ -MMD -MF
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/flash_api.o.d
+      -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall
+      -g -fstack-protector-strong -Wformat -Werror=format-security -g
+      -fwrapv -O2 -fPIC -I/home/seohyun/flash-attention/csrc/flash_attn
+      -I/home/seohyun/flash-attention/csrc/flash_attn/src
+      -I/home/seohyun/flash-attention/csrc/cutlass/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include
+      -I/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include
+      -I/usr/local/cuda/include -I/home/seohyun/flash-attention/.venv/include
+      -I/usr/include/python3.10 -c -c
+      /home/seohyun/flash-attention/csrc/flash_attn/flash_api.cpp -o
+      /tmp/tmpvbfi896r.build-temp/csrc/flash_attn/flash_api.o -O3 -std=c++17
+      -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=flash_attn_2_cuda
+      ninja: build stopped: subcommand failed.
+
+      [stderr]
+      /home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/wheel/bdist_wheel.py:4:
+      FutureWarning: The 'wheel' package is no longer the canonical location
+      of the 'bdist_wheel' command, and will be removed in a future release.
+      Please update to setuptools v70.1 or later which contains an integrated
+      version of this command.
+        warn(
+      /home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `authors` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+      
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `authors = 'Tri Dao'`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `authors` is listed as `dynamic`.
+
+      
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `authors` under `dynamic`
+      or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+      
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:75:
+      _MissingDynamic: `classifiers` defined outside of `pyproject.toml` is
+      ignored.
+      !!
+
+      
+      ********************************************************************************
+              The following seems to be defined outside of `pyproject.toml`:
+
+              `classifiers = ['Programming Language :: Python :: 3', 'License
+      :: OSI Approved :: BSD License', 'Operating System :: Unix']`
+
+              According to the spec (see the link below), however, setuptools
+      CANNOT
+              consider this value unless `classifiers` is listed as `dynamic`.
+
+      
+      https://packaging.python.org/en/latest/specifications/pyproject-toml/#declaring-project-metadata-the-project-table
+
+              To prevent this problem, you can list `classifiers` under
+      `dynamic` or alternatively
+              remove the `[project]` table from your file and rely entirely on
+      other means of
+              configuration.
+      
+      ********************************************************************************
+
+      !!
+        _handle_missing_dynamic(dist, project_table)
+      /home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:82:
+      SetuptoolsWarning: `install_requires` overwritten in `pyproject.toml`
+      (dependencies)
+        corresp(dist, value, root_dir)
+      warning: no files found matching '*.cu' under directory 'flash_attn'
+      warning: no files found matching '*.h' under directory 'flash_attn'
+      warning: no files found matching '*.cuh' under directory 'flash_attn'
+      warning: no files found matching '*.cpp' under directory 'flash_attn'
+      warning: no files found matching '*.hpp' under directory 'flash_attn'
+      W0312 10:25:46.490000 2498443
+      .venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py:525]
+      The detected CUDA version (12.2) has a minor version mismatch with
+      the version that was used to compile PyTorch (12.8). Most likely this
+      shouldn't be a problem.
+      W0312 10:25:46.491000 2498443
+      .venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py:535]
+      There are no x86_64-linux-gnu-g++ version bounds defined for CUDA
+      version 12.2
+      Traceback (most recent call last):
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py",
+      line 2693, in _run_ninja_build
+          subprocess.run(
+        File "/usr/lib/python3.10/subprocess.py", line 526, in run
+          raise CalledProcessError(retcode, process.args,
+      subprocess.CalledProcessError: Command '['ninja', '-v', '-j', '29']'
+      returned non-zero exit status 1.
+
+      The above exception was the direct cause of the following exception:
+
+      Traceback (most recent call last):
+        File "<string>", line 11, in <module>
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/build_meta.py",
+      line 474, in build_editable
+          return self._build_with_temp_dir(
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/build_meta.py",
+      line 410, in _build_with_temp_dir
+          self.run_setup()
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/build_meta.py",
+      line 520, in run_setup
+          super().run_setup(setup_script=setup_script)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/build_meta.py",
+      line 317, in run_setup
+          exec(code, locals())
+        File "<string>", line 596, in <module>
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/__init__.py",
+      line 117, in setup
+          return distutils.core.setup(**attrs)  # type: ignore[return-value]
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/core.py",
+      line 186, in setup
+          return run_commands(dist)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/core.py",
+      line 202, in run_commands
+          dist.run_commands()
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/dist.py",
+      line 1000, in run_commands
+          self.run_command(cmd)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/dist.py",
+      line 1107, in run_command
+          super().run_command(command)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/dist.py",
+      line 1019, in run_command
+          cmd_obj.run()
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/command/editable_wheel.py",
+      line 140, in run
+          self._create_wheel_file(bdist_wheel)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/command/editable_wheel.py",
+      line 350, in _create_wheel_file
+          files, mapping = self._run_build_commands(dist_name, unpacked, lib,
+      tmp)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/command/editable_wheel.py",
+      line 273, in _run_build_commands
+          self._run_build_subcommands()
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/command/editable_wheel.py",
+      line 300, in _run_build_subcommands
+          self.run_command(name)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/cmd.py",
+      line 341, in run_command
+          self.distribution.run_command(command)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/dist.py",
+      line 1107, in run_command
+          super().run_command(command)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/dist.py",
+      line 1019, in run_command
+          cmd_obj.run()
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/command/build_ext.py",
+      line 97, in run
+          _build_ext.run(self)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/command/build_ext.py",
+      line 367, in run
+          self.build_extensions()
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py",
+      line 1143, in build_extensions
+          build_ext.build_extensions(self)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/command/build_ext.py",
+      line 483, in build_extensions
+          self._build_extensions_serial()
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/command/build_ext.py",
+      line 509, in _build_extensions_serial
+          self.build_extension(ext)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/command/build_ext.py",
+      line 262, in build_extension
+          _build_ext.build_extension(self, ext)
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/setuptools/_distutils/command/build_ext.py",
+      line 564, in build_extension
+          objects = self.compiler.compile(
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py",
+      line 900, in unix_wrap_ninja_compile
+          _write_ninja_file_and_compile_objects(
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py",
+      line 2297, in _write_ninja_file_and_compile_objects
+          _run_ninja_build(
+        File
+      "/home/seohyun/flash-attention/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py",
+      line 2710, in _run_ninja_build
+          raise RuntimeError(message) from e
+      RuntimeError: Error compiling objects for extension
+
+      hint: This usually indicates a problem with the package or the build
+      environment.

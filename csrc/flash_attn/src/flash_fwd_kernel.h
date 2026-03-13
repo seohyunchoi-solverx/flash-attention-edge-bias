@@ -346,8 +346,10 @@ inline __device__ void compute_attn_1rowblock(const Params &params, const int bi
             int q_block_global = params.cu_q_blocks[bidb] + m_block;
             int tile_idx = params.edge_bias_tile_map[q_block_global * params.edge_bias_max_k_blocks + n_block];
             if (tile_idx >= 0) {
-                load_bitset_to_smem(smem_edge_bits,
-                    params.edge_bias_bitsets + tile_idx * 512, tidx);
+                constexpr int kBitsetWords = kBlockM * kBlockN / 32;
+                constexpr int kBitsetUint4 = kBitsetWords * 4 / 16;
+                load_bitset_to_smem<kBitsetUint4>(smem_edge_bits,
+                    params.edge_bias_bitsets + tile_idx * kBitsetWords, tidx);
                 __syncthreads();
                 apply_edge_bias<kBlockN>(
                     acc_s, smem_edge_bits, edge_bias_scale,
@@ -429,8 +431,10 @@ inline __device__ void compute_attn_1rowblock(const Params &params, const int bi
             int q_block_global = params.cu_q_blocks[bidb] + m_block;
             int tile_idx = params.edge_bias_tile_map[q_block_global * params.edge_bias_max_k_blocks + n_block];
             if (tile_idx >= 0) {
-                load_bitset_to_smem(smem_edge_bits,
-                    params.edge_bias_bitsets + tile_idx * 512, tidx);
+                constexpr int kBitsetWords = kBlockM * kBlockN / 32;
+                constexpr int kBitsetUint4 = kBitsetWords * 4 / 16;
+                load_bitset_to_smem<kBitsetUint4>(smem_edge_bits,
+                    params.edge_bias_bitsets + tile_idx * kBitsetWords, tidx);
                 __syncthreads();
                 apply_edge_bias<kBlockN>(
                     acc_s, smem_edge_bits, edge_bias_scale,
@@ -941,8 +945,10 @@ inline __device__ void compute_attn_1rowblock_splitkv(const Params &params, cons
             int q_block_global = params.cu_q_blocks[bidb] + m_block;
             int tile_idx = params.edge_bias_tile_map[q_block_global * params.edge_bias_max_k_blocks + n_block];
             if (tile_idx >= 0) {
-                load_bitset_to_smem(smem_edge_bits,
-                    params.edge_bias_bitsets + tile_idx * 512, tidx);
+                constexpr int kBitsetWords = kBlockM * kBlockN / 32;
+                constexpr int kBitsetUint4 = kBitsetWords * 4 / 16;
+                load_bitset_to_smem<kBitsetUint4>(smem_edge_bits,
+                    params.edge_bias_bitsets + tile_idx * kBitsetWords, tidx);
                 __syncthreads();
                 apply_edge_bias<kBlockN>(
                     acc_s, smem_edge_bits, edge_bias_scale,
@@ -1032,8 +1038,10 @@ inline __device__ void compute_attn_1rowblock_splitkv(const Params &params, cons
             int q_block_global = params.cu_q_blocks[bidb] + m_block;
             int tile_idx = params.edge_bias_tile_map[q_block_global * params.edge_bias_max_k_blocks + n_block];
             if (tile_idx >= 0) {
-                load_bitset_to_smem(smem_edge_bits,
-                    params.edge_bias_bitsets + tile_idx * 512, tidx);
+                constexpr int kBitsetWords = kBlockM * kBlockN / 32;
+                constexpr int kBitsetUint4 = kBitsetWords * 4 / 16;
+                load_bitset_to_smem<kBitsetUint4>(smem_edge_bits,
+                    params.edge_bias_bitsets + tile_idx * kBitsetWords, tidx);
                 __syncthreads();
                 apply_edge_bias<kBlockN>(
                     acc_s, smem_edge_bits, edge_bias_scale,

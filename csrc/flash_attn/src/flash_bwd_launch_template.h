@@ -100,8 +100,9 @@ void run_flash_bwd_seqk_parallel(Flash_bwd_params &params, cudaStream_t stream) 
                     SOFTCAP_SWITCH(params.softcap > 0.0, Is_softcap, [&] {
                         EDGE_BIAS_SWITCH(params.edge_bias_tile_offsets != nullptr, Has_edge_bias, [&] {
                             auto kernel = &flash_bwd_dq_dk_dv_loop_seqk_parallel_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !Has_alibi && Kernel_traits::kHeadDim <= 128, IsEvenKConst && !Has_alibi, Is_softcap, Has_edge_bias>;
+                            constexpr size_t kBitsetBytes = Kernel_traits::kBlockM * Kernel_traits::kBlockN / 8;
                             constexpr size_t smem_size_edge = (smem_size_dq_dk_dv + 15) & ~15;
-                            const size_t smem_total = (Has_edge_bias ? smem_size_edge + 2048 : smem_size_dq_dk_dv);
+                            const size_t smem_total = (Has_edge_bias ? smem_size_edge + kBitsetBytes : smem_size_dq_dk_dv);
                             if (smem_total >= 48 * 1024)  {
                                 C10_CUDA_CHECK(cudaFuncSetAttribute(
                                     kernel, cudaFuncAttributeMaxDynamicSharedMemorySize, smem_total));
