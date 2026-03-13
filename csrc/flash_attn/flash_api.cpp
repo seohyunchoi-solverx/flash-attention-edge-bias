@@ -522,6 +522,14 @@ mha_varlen_fwd(at::Tensor &q,  // total_q x num_heads x head_size, total_q := \s
                std::optional<const at::Tensor> &leftpad_k_, // batch_size
                std::optional<at::Tensor> &block_table_, // batch_size x max_num_blocks_per_seq
                std::optional<at::Tensor> &alibi_slopes_, // num_heads or b x num_heads
+               std::optional<at::Tensor> &edge_bias_tile_offsets_, // [total_q_blocks + 1]
+               std::optional<at::Tensor> &edge_bias_tile_k_indices_, // [nnz_tiles] int32
+               std::optional<at::Tensor> &edge_bias_bitsets_, // [nnz_tiles, 512] int32
+               std::optional<at::Tensor> &edge_bias_scale_, // [n_heads] float32
+               std::optional<at::Tensor> &edge_bias_tile_map_, // [total_q_blocks, edge_bias_max_k_blocks] int32
+               std::optional<at::Tensor> &cu_q_blocks_, // [batch_size + 1] int32
+               std::optional<at::Tensor> &cu_k_blocks_, // [batch_size + 1] int32
+               std::optional<int> &edge_bias_max_k_blocks_,
                int max_seqlen_q,
                const int max_seqlen_k,
                const float p_dropout,
@@ -713,6 +721,47 @@ mha_varlen_fwd(at::Tensor &q,  // total_q x num_heads x head_size, total_q := \s
         CHECK_CONTIGUOUS(leftpad_k);
         CHECK_SHAPE(leftpad_k, batch_size);
         params.leftpad_k = static_cast<int *>(leftpad_k.data_ptr());
+    }
+
+    if (edge_bias_tile_offsets_.has_value()) {
+        params.edge_bias_tile_offsets = edge_bias_tile_offsets_.value().data_ptr<int>();
+    } else {
+        params.edge_bias_tile_offsets = nullptr;
+    }
+    if (edge_bias_tile_k_indices_.has_value()) {
+        params.edge_bias_tile_k_indices = edge_bias_tile_k_indices_.value().data_ptr<int>();
+    } else {
+        params.edge_bias_tile_k_indices = nullptr;
+    }
+    if (edge_bias_bitsets_.has_value()) {
+        params.edge_bias_bitsets = reinterpret_cast<uint32_t*>(edge_bias_bitsets_.value().data_ptr<int>());
+    } else {
+        params.edge_bias_bitsets = nullptr;
+    }
+    if (edge_bias_scale_.has_value()) {
+        params.edge_bias_scale = edge_bias_scale_.value().data_ptr<float>();
+    } else {
+        params.edge_bias_scale = nullptr;
+    }
+    if (edge_bias_tile_map_.has_value()) {
+        params.edge_bias_tile_map = edge_bias_tile_map_.value().data_ptr<int>();
+    } else {
+        params.edge_bias_tile_map = nullptr;
+    }
+    if (cu_q_blocks_.has_value()) {
+        params.cu_q_blocks = cu_q_blocks_.value().data_ptr<int>();
+    } else {
+        params.cu_q_blocks = nullptr;
+    }
+    if (cu_k_blocks_.has_value()) {
+        params.cu_k_blocks = cu_k_blocks_.value().data_ptr<int>();
+    } else {
+        params.cu_k_blocks = nullptr;
+    }
+    if (edge_bias_max_k_blocks_.has_value()) {
+        params.edge_bias_max_k_blocks = edge_bias_max_k_blocks_.value();
+    } else {
+        params.edge_bias_max_k_blocks = 0;
     }
 
     // number of times random will be generated per thread, to offset philox counter in thc random
@@ -983,6 +1032,14 @@ mha_varlen_bwd(const at::Tensor &dout,  // total_q x num_heads, x head_size
                const at::Tensor &cu_seqlens_q,  // b+1
                const at::Tensor &cu_seqlens_k,  // b+1
                std::optional<at::Tensor> &alibi_slopes_, // num_heads or b x num_heads
+               std::optional<at::Tensor> &edge_bias_tile_offsets_, // [total_q_blocks + 1]
+               std::optional<at::Tensor> &edge_bias_tile_k_indices_, // [nnz_tiles] int32
+               std::optional<at::Tensor> &edge_bias_bitsets_, // [nnz_tiles, 512] int32
+               std::optional<at::Tensor> &edge_bias_scale_, // [n_heads] float32
+               std::optional<at::Tensor> &edge_bias_tile_map_, // [total_q_blocks, edge_bias_max_k_blocks] int32
+               std::optional<at::Tensor> &cu_q_blocks_, // [batch_size + 1] int32
+               std::optional<at::Tensor> &cu_k_blocks_, // [batch_size + 1] int32
+               std::optional<int> &edge_bias_max_k_blocks_,
                const int max_seqlen_q,
                const int max_seqlen_k,          // max sequence length to choose the kernel
                const float p_dropout,         // probability to drop
@@ -1160,6 +1217,50 @@ mha_varlen_bwd(const at::Tensor &dout,  // total_q x num_heads, x head_size
     params.dq_accum_split_stride = !deterministic ? 0 : dq_accum.stride(0);
     params.total_q = total_q;
 
+    if (edge_bias_tile_offsets_.has_value()) {
+        params.edge_bias_tile_offsets = edge_bias_tile_offsets_.value().data_ptr<int>();
+    } else {
+        params.edge_bias_tile_offsets = nullptr;
+    }
+    if (edge_bias_tile_k_indices_.has_value()) {
+        params.edge_bias_tile_k_indices = edge_bias_tile_k_indices_.value().data_ptr<int>();
+    } else {
+        params.edge_bias_tile_k_indices = nullptr;
+    }
+    if (edge_bias_bitsets_.has_value()) {
+        params.edge_bias_bitsets = reinterpret_cast<uint32_t*>(edge_bias_bitsets_.value().data_ptr<int>());
+    } else {
+        params.edge_bias_bitsets = nullptr;
+    }
+    if (edge_bias_scale_.has_value()) {
+        params.edge_bias_scale = edge_bias_scale_.value().data_ptr<float>();
+    } else {
+        params.edge_bias_scale = nullptr;
+    }
+    if (edge_bias_tile_map_.has_value()) {
+        params.edge_bias_tile_map = edge_bias_tile_map_.value().data_ptr<int>();
+    } else {
+        params.edge_bias_tile_map = nullptr;
+    }
+    if (cu_q_blocks_.has_value()) {
+        params.cu_q_blocks = cu_q_blocks_.value().data_ptr<int>();
+    } else {
+        params.cu_q_blocks = nullptr;
+    }
+    if (cu_k_blocks_.has_value()) {
+        params.cu_k_blocks = cu_k_blocks_.value().data_ptr<int>();
+    } else {
+        params.cu_k_blocks = nullptr;
+    }
+    if (edge_bias_max_k_blocks_.has_value()) {
+        params.edge_bias_max_k_blocks = edge_bias_max_k_blocks_.value();
+    } else {
+        params.edge_bias_max_k_blocks = 0;
+    }
+
+    auto d_edge_bias_scale = torch::zeros({num_heads}, opts.dtype(at::kFloat));
+    params.d_edge_bias_scale = d_edge_bias_scale.data_ptr<float>();
+
     auto launch = &run_mha_bwd;
 
     auto gen = at::get_generator_or_default<at::CUDAGeneratorImpl>(
@@ -1196,7 +1297,7 @@ mha_varlen_bwd(const at::Tensor &dout,  // total_q x num_heads, x head_size
         at::sum_out(dv, at::reshape(dv_expanded, {total_k, num_heads_k, num_heads / num_heads_k, head_size}), {2});
     }
 
-    return { dq, dk, dv, softmax_d };
+    return { dq, dk, dv, softmax_d, d_edge_bias_scale };
 }
 
 std::vector<at::Tensor>

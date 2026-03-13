@@ -19,6 +19,7 @@
 #include "dropout.h"
 
 #include "alibi.h"
+#include "edge_bias.h"
 
 namespace FLASH_NAMESPACE {
 
@@ -77,7 +78,7 @@ make_tiled_copy_C_warpcontiguousN(Copy_Atom<Args...> const& copy_atom,
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template<typename Kernel_traits, bool Is_dropout, bool Is_causal, bool Is_local, bool Has_alibi, bool Is_even_MN, bool Is_even_K, bool Is_softcap, bool Is_first, bool Is_last, bool Seq_parallel=false, typename Params>
+template<typename Kernel_traits, bool Is_dropout, bool Is_causal, bool Is_local, bool Has_alibi, bool Is_even_MN, bool Is_even_K, bool Is_softcap, bool Has_edge_bias, bool Is_first, bool Is_last, bool Seq_parallel=false, typename Params>
 inline __device__ void compute_dq_dk_dv_1colblock(const Params &params, const int bidb, const int bidh, const int n_block) {
 
     using Element = typename Kernel_traits::Element;
@@ -494,6 +495,24 @@ inline __device__ void compute_dq_dk_dv_1colblock(const Params &params, const in
                               m_block * kBlockM + get<0>(taccScS_row(0)), AtomLayoutMS * 16);
         }
 
+        if constexpr (Has_edge_bias) {
+            static constexpr int kSmemEdgeBiasOffset = (Kernel_traits::kSmemSize1colblock + 15) & ~15;
+            uint32_t *smem_edge_bits = reinterpret_cast<uint32_t *>(smem_ + kSmemEdgeBiasOffset);
+            const float edge_bias_scale = params.edge_bias_scale[bidh] / params.scale_softmax;
+            int q_block_global = params.cu_q_blocks[bidb] + m_block;
+            int tile_idx = params.edge_bias_tile_map[q_block_global * params.edge_bias_max_k_blocks + n_block];
+            if (tile_idx >= 0) {
+                load_bitset_to_smem(smem_edge_bits,
+                    params.edge_bias_bitsets + tile_idx * 512, tidx);
+                __syncthreads();
+                apply_edge_bias<kBlockN>(
+                    acc_s, smem_edge_bits, edge_bias_scale,
+                    (tidx / 32 / AtomLayoutMS) * MMA_N_SdP * 16,
+                    (tidx / 32 % AtomLayoutMS) * 16 + (tidx % 32) / 4,
+                    AtomLayoutMS * 16);
+            }
+        }
+
         // TD [2023-07-29]: I was thinking that we don't need to mask out the elements beyond
         // actual_seqlen_k, because acc_s would be some finite value for those indices.
         // In the end when we multiply with K to get dQ, the corresponding values of K would be 0,
@@ -594,6 +613,45 @@ inline __device__ void compute_dq_dk_dv_1colblock(const Params &params, const in
             }
         }
         // if (cute::thread0()) { print(dS); }
+
+        if constexpr (Has_edge_bias) {
+            static constexpr int kSmemEdgeBiasOffset = (Kernel_traits::kSmemSize1colblock + 15) & ~15;
+            const uint32_t *smem_edge_bits = reinterpret_cast<const uint32_t *>(smem_ + kSmemEdgeBiasOffset);
+            int q_block_global = params.cu_q_blocks[bidb] + m_block;
+            int tile_idx = params.edge_bias_tile_map[q_block_global * params.edge_bias_max_k_blocks + n_block];
+            if (tile_idx >= 0) {
+                const int warp_id = tidx / 32;
+                const int lane_id = tidx % 32;
+                const int bwd_row_idx_offset = (warp_id % AtomLayoutMS) * 16 + lane_id / 4;
+                const int bwd_col_idx_offset = (warp_id / AtomLayoutMS) * MMA_N_SdP * 16 + (lane_id % 4) * 2;
+                constexpr int bwd_warp_row_stride = AtomLayoutMS * 16;
+                float local_grad = 0.0f;
+                #pragma unroll
+                for (int mi = 0; mi < size<0, 1>(dS); ++mi) {
+                    const int row_idx_base = bwd_row_idx_offset + mi * bwd_warp_row_stride;
+                    #pragma unroll
+                    for (int i = 0; i < size<0, 0>(dS); ++i) {
+                        const int row_idx = row_idx_base + i * 8;
+                        #pragma unroll
+                        for (int nj = 0; nj < size<1, 1>(dS); ++nj) {
+                            const int col_idx_base = bwd_col_idx_offset + nj * 8;
+                            #pragma unroll
+                            for (int j = 0; j < size<1, 0>(dS); ++j) {
+                                const int col_idx = col_idx_base + j;
+                                if (has_edge_bit(smem_edge_bits, row_idx, col_idx, kBlockN)) {
+                                    local_grad += dS(make_coord(i, mi), make_coord(j, nj));
+                                }
+                            }
+                        }
+                    }
+                }
+                for (int offset = 16; offset > 0; offset >>= 1)
+                    local_grad += __shfl_down_sync(0xffffffff, local_grad, offset);
+                if (threadIdx.x % 32 == 0) {
+                    atomicAdd(&params.d_edge_bias_scale[bidh], local_grad);
+                }
+            }
+        }
 
         Tensor acc_dq = partition_fragment_C(tiled_mma_dq, Shape<Int<kBlockM>, Int<kHeadDim>>{});  // MMA, MMA_N, MMA_K
         tdQgdQaccum.data() = tdQgdQaccum.data() + (-int(kBlockM * params.h * params.d_rounded));
@@ -810,20 +868,20 @@ inline __device__ void compute_dq_dk_dv(const Params &params) {
 
     const int n_block_max = (params.seqlen_k + Kernel_traits::kBlockN - 1) / Kernel_traits::kBlockN;
     if (n_block_max == 1) {
-        compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, Has_alibi, Is_even_M, Is_even_K, true, true>(params, bidb, bidh, 0);
+        compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, false, Has_alibi, Is_even_M, Is_even_K, false, false, true, true>(params, bidb, bidh, 0);
     } else {
         // Iterating backward from n_block_max - 1 to 0 might save 1 register
-        compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, Has_alibi, Is_even_M, Is_even_K, true, false>(params, bidb, bidh, n_block_max - 1);
+        compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, false, Has_alibi, Is_even_M, Is_even_K, false, false, true, false>(params, bidb, bidh, n_block_max - 1);
         for (int n_block = n_block_max - 2; n_block > 0; n_block--) {
-            compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, Has_alibi, Is_even_M, Is_even_K, false, false>(params, bidb, bidh, n_block);
+            compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, false, Has_alibi, Is_even_M, Is_even_K, false, false, false, false>(params, bidb, bidh, n_block);
         }
-        compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, Has_alibi, Is_even_M, Is_even_K, false, true>(params, bidb, bidh, 0);
+        compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, false, Has_alibi, Is_even_M, Is_even_K, false, false, false, true>(params, bidb, bidh, 0);
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-template<typename Kernel_traits, bool Is_dropout, bool Is_causal, bool Is_local, bool Has_alibi, bool Is_even_MN, bool Is_even_K, bool Is_softcap, typename Params>
+template<typename Kernel_traits, bool Is_dropout, bool Is_causal, bool Is_local, bool Has_alibi, bool Is_even_MN, bool Is_even_K, bool Is_softcap, bool Has_edge_bias, typename Params>
 inline __device__ void compute_dq_dk_dv_seqk_parallel(const Params &params) {
 
     // The block index for the batch.
@@ -833,7 +891,7 @@ inline __device__ void compute_dq_dk_dv_seqk_parallel(const Params &params) {
 
     // If deterministic, each thread block will do atomicAdd to a different dQ_accum buffer.
     for (int n_block = blockIdx.x; n_block < (params.seqlen_k + Kernel_traits::kBlockN - 1) / Kernel_traits::kBlockN; n_block += gridDim.x) {
-        compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, false, false, /*Seq_parallel=*/true>(params, bidb, bidh, n_block);
+        compute_dq_dk_dv_1colblock<Kernel_traits, Is_dropout, Is_causal, Is_local, Has_alibi, Is_even_MN, Is_even_K, Is_softcap, Has_edge_bias, false, false, /*Seq_parallel=*/true>(params, bidb, bidh, n_block);
     }
 }
 

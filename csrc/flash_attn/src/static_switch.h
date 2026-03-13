@@ -109,3 +109,13 @@
       return __VA_ARGS__();                \
     }                                      \
   }()
+
+#ifdef FLASHATTENTION_DISABLE_EDGE_BIAS
+  #define EDGE_BIAS_SWITCH(COND, CONST_NAME, ...) \
+  [&] {                                           \
+    constexpr static bool CONST_NAME = false;     \
+    return __VA_ARGS__();                         \
+  }()
+#else
+  #define EDGE_BIAS_SWITCH BOOL_SWITCH
+#endif

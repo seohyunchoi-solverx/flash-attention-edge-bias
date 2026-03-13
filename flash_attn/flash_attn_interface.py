@@ -163,6 +163,14 @@ def _flash_attn_varlen_forward(
     leftpad_k: Optional[torch.Tensor] = None,
     seqused_k: Optional[torch.Tensor] = None,
     zero_tensors: bool = False,
+    edge_bias_tile_offsets: Optional[torch.Tensor] = None,
+    edge_bias_tile_k_indices: Optional[torch.Tensor] = None,
+    edge_bias_bitsets: Optional[torch.Tensor] = None,
+    edge_bias_scale: Optional[torch.Tensor] = None,
+    edge_bias_tile_map: Optional[torch.Tensor] = None,
+    cu_q_blocks: Optional[torch.Tensor] = None,
+    cu_k_blocks: Optional[torch.Tensor] = None,
+    edge_bias_max_k_blocks: Optional[int] = None,
 ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
     q, k, v = [maybe_contiguous(x) for x in (q, k, v)]
     out, softmax_lse, S_dmask, rng_state = flash_attn_gpu.varlen_fwd(
@@ -176,6 +184,14 @@ def _flash_attn_varlen_forward(
         leftpad_k,
         block_table,
         alibi_slopes,
+        edge_bias_tile_offsets,
+        edge_bias_tile_k_indices,
+        edge_bias_bitsets,
+        edge_bias_scale,
+        edge_bias_tile_map,
+        cu_q_blocks,
+        cu_k_blocks,
+        edge_bias_max_k_blocks,
         max_seqlen_q,
         max_seqlen_k,
         dropout_p,
@@ -214,6 +230,14 @@ def _flash_attn_varlen_forward_fake(
     leftpad_k: Optional[torch.Tensor] = None,
     seqused_k: Optional[torch.Tensor] = None,
     zero_tensors: bool = False,
+    edge_bias_tile_offsets: Optional[torch.Tensor] = None,
+    edge_bias_tile_k_indices: Optional[torch.Tensor] = None,
+    edge_bias_bitsets: Optional[torch.Tensor] = None,
+    edge_bias_scale: Optional[torch.Tensor] = None,
+    edge_bias_tile_map: Optional[torch.Tensor] = None,
+    cu_q_blocks: Optional[torch.Tensor] = None,
+    cu_k_blocks: Optional[torch.Tensor] = None,
+    edge_bias_max_k_blocks: Optional[int] = None,
 ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
     q, k, v = [maybe_contiguous(x) for x in (q, k, v)]
     paged_kv = block_table is not None
@@ -358,7 +382,15 @@ def _flash_attn_varlen_backward(
     deterministic: bool,
     rng_state: Optional[torch.Tensor] = None,
     zero_tensors: bool = False,
-) -> torch.Tensor:
+    edge_bias_tile_offsets: Optional[torch.Tensor] = None,
+    edge_bias_tile_k_indices: Optional[torch.Tensor] = None,
+    edge_bias_bitsets: Optional[torch.Tensor] = None,
+    edge_bias_scale: Optional[torch.Tensor] = None,
+    edge_bias_tile_map: Optional[torch.Tensor] = None,
+    cu_q_blocks: Optional[torch.Tensor] = None,
+    cu_k_blocks: Optional[torch.Tensor] = None,
+    edge_bias_max_k_blocks: Optional[int] = None,
+) -> tuple[torch.Tensor, torch.Tensor]:
     # dq, dk, dv are allocated by us so they should already be contiguous
     dout, q, k, v, out = [maybe_contiguous(x) for x in (dout, q, k, v, out)]
     (
@@ -366,6 +398,7 @@ def _flash_attn_varlen_backward(
         dk,
         dv,
         softmax_d,
+        d_edge_bias_scale,
     ) = flash_attn_gpu.varlen_bwd(
         dout,
         q,
@@ -379,6 +412,14 @@ def _flash_attn_varlen_backward(
         cu_seqlens_q,
         cu_seqlens_k,
         alibi_slopes,
+        edge_bias_tile_offsets,
+        edge_bias_tile_k_indices,
+        edge_bias_bitsets,
+        edge_bias_scale,
+        edge_bias_tile_map,
+        cu_q_blocks,
+        cu_k_blocks,
+        edge_bias_max_k_blocks,
         max_seqlen_q,
         max_seqlen_k,
         dropout_p,
@@ -394,7 +435,7 @@ def _flash_attn_varlen_backward(
     )
     # if dk.isnan().any() or dk.isnan().any() or dv.isnan().any() or softmax_d.isnan().any():
     #     breakpoint()
-    return softmax_d
+    return softmax_d, d_edge_bias_scale
 
 
 @_torch_register_fake_wrapper("flash_attn::_flash_attn_varlen_backward")
@@ -422,7 +463,15 @@ def _flash_attn_varlen_backward_fake(
     deterministic: bool,
     rng_state: Optional[torch.Tensor] = None,
     zero_tensors: bool = False,
-) -> torch.Tensor:
+    edge_bias_tile_offsets: Optional[torch.Tensor] = None,
+    edge_bias_tile_k_indices: Optional[torch.Tensor] = None,
+    edge_bias_bitsets: Optional[torch.Tensor] = None,
+    edge_bias_scale: Optional[torch.Tensor] = None,
+    edge_bias_tile_map: Optional[torch.Tensor] = None,
+    cu_q_blocks: Optional[torch.Tensor] = None,
+    cu_k_blocks: Optional[torch.Tensor] = None,
+    edge_bias_max_k_blocks: Optional[int] = None,
+) -> tuple[torch.Tensor, torch.Tensor]:
     dout, q, k, v, out = [maybe_contiguous(x) for x in (dout, q, k, v, out)]
     batch_size = cu_seqlens_q.numel() - 1
     total_q, num_heads, _ = q.shape
@@ -437,8 +486,9 @@ def _flash_attn_varlen_backward_fake(
         softmax_d = torch.empty((num_heads, total_q), device=q.device, dtype=torch.float32)
     else:
         softmax_d = torch.empty((num_heads, total_q + 128 * batch_size), device=q.device, dtype=torch.float32)
-    
-    return softmax_d
+    d_edge_bias_scale = torch.empty((num_heads,), device=q.device, dtype=torch.float32)
+
+    return softmax_d, d_edge_bias_scale
 
 
 if torch.__version__ >= "2.4.0":
@@ -921,6 +971,14 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
         return_softmax,
         block_table,
         is_grad_enabled,
+        edge_bias_tile_offsets,
+        edge_bias_tile_k_indices,
+        edge_bias_bitsets,
+        edge_bias_scale,
+        edge_bias_tile_map,
+        cu_q_blocks,
+        cu_k_blocks,
+        edge_bias_max_k_blocks,
     ):
         is_grad = is_grad_enabled and any(
             x.requires_grad for x in [q, k, v]
@@ -949,6 +1007,14 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
             alibi_slopes=alibi_slopes,
             return_softmax=return_softmax and dropout_p > 0,
             block_table=block_table,
+            edge_bias_tile_offsets=edge_bias_tile_offsets,
+            edge_bias_tile_k_indices=edge_bias_tile_k_indices,
+            edge_bias_bitsets=edge_bias_bitsets,
+            edge_bias_scale=edge_bias_scale,
+            edge_bias_tile_map=edge_bias_tile_map,
+            cu_q_blocks=cu_q_blocks,
+            cu_k_blocks=cu_k_blocks,
+            edge_bias_max_k_blocks=edge_bias_max_k_blocks,
         )
         if is_grad:
             ctx.save_for_backward(
@@ -963,6 +1029,14 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
             ctx.softcap = softcap
             ctx.alibi_slopes = alibi_slopes
             ctx.deterministic = deterministic
+            ctx.edge_bias_tile_offsets = edge_bias_tile_offsets
+            ctx.edge_bias_tile_k_indices = edge_bias_tile_k_indices
+            ctx.edge_bias_bitsets = edge_bias_bitsets
+            ctx.edge_bias_scale = edge_bias_scale
+            ctx.edge_bias_tile_map = edge_bias_tile_map
+            ctx.cu_q_blocks = cu_q_blocks
+            ctx.cu_k_blocks = cu_k_blocks
+            ctx.edge_bias_max_k_blocks = edge_bias_max_k_blocks
 
         out = out_padded[..., :head_size_og]
         return out if not return_softmax else (out, softmax_lse, S_dmask)
@@ -975,7 +1049,7 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
         dout_padded = dout
         if head_size_og % 8 != 0:
             dout_padded = torch.nn.functional.pad(dout, [0, 8 - head_size_og % 8])
-        _wrapped_flash_attn_varlen_backward(
+        (softmax_d, d_edge_bias_scale) = _wrapped_flash_attn_varlen_backward(
             dout_padded,
             q,
             k,
@@ -998,11 +1072,26 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
             ctx.alibi_slopes,
             ctx.deterministic,
             rng_state=rng_state,
+            edge_bias_tile_offsets=ctx.edge_bias_tile_offsets,
+            edge_bias_tile_k_indices=ctx.edge_bias_tile_k_indices,
+            edge_bias_bitsets=ctx.edge_bias_bitsets,
+            edge_bias_scale=ctx.edge_bias_scale,
+            edge_bias_tile_map=ctx.edge_bias_tile_map,
+            cu_q_blocks=ctx.cu_q_blocks,
+            cu_k_blocks=ctx.cu_k_blocks,
+            edge_bias_max_k_blocks=ctx.edge_bias_max_k_blocks,
         )
         dq = dq[..., : dout.shape[-1]]  # We could have padded the head dimension
         dk = dk[..., : dout.shape[-1]]
         dv = dv[..., : dout.shape[-1]]
-        return dq, dk, dv, None, None, None, None, None, None, None, None, None, None, None, None, None, None
+        d_eb = d_edge_bias_scale if ctx.edge_bias_scale is not None else None
+        return (dq, dk, dv,
+                None, None, None, None,  # cu_seqlens_q/k, max_seqlen_q/k
+                None, None, None, None, None,  # dropout_p, softmax_scale, causal, window_size, softcap
+                None, None, None, None, None,  # alibi_slopes, deterministic, return_softmax, block_table, is_grad_enabled
+                None, None, None,  # edge_bias_tile_offsets, tile_k_indices, bitsets
+                d_eb,  # edge_bias_scale
+                None, None, None, None)  # edge_bias_tile_map, cu_q_blocks, cu_k_blocks, edge_bias_max_k_blocks
 
 
 def flash_attn_qkvpacked_func(
@@ -1394,6 +1483,14 @@ def flash_attn_varlen_func(
     deterministic=False,
     return_attn_probs=False,
     block_table=None,
+    edge_bias_tile_offsets=None,
+    edge_bias_tile_k_indices=None,
+    edge_bias_bitsets=None,
+    edge_bias_scale=None,
+    edge_bias_tile_map=None,
+    cu_q_blocks=None,
+    cu_k_blocks=None,
+    edge_bias_max_k_blocks=None,
 ):
     """dropout_p should be set to 0.0 during evaluation
     Supports multi-query and grouped-query attention (MQA/GQA) by passing in K, V with fewer heads
@@ -1468,6 +1565,14 @@ def flash_attn_varlen_func(
         return_attn_probs,
         block_table,
         torch.is_grad_enabled(),
+        edge_bias_tile_offsets,
+        edge_bias_tile_k_indices,
+        edge_bias_bitsets,
+        edge_bias_scale,
+        edge_bias_tile_map,
+        cu_q_blocks,
+        cu_k_blocks,
+        edge_bias_max_k_blocks,
     )
 
 

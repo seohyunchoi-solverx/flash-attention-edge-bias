@@ -64,7 +64,7 @@ struct Flash_fwd_params : public Qkv_params {
     void * __restrict__ softmax_lseaccum_ptr;
 
     // The dimensions.
-    int b, seqlen_q, seqlen_k, seqlen_knew, d, seqlen_q_rounded, seqlen_k_rounded, d_rounded, rotary_dim, total_q;
+    int b, seqlen_q, seqlen_k, seqlen_knew, d, seqlen_q_rounded, seqlen_k_rounded, d_rounded, rotary_dim, total_q, edge_bias_max_k_blocks;
 
     // The scaling factors for the kernel.
     float scale_softmax;
@@ -74,6 +74,9 @@ struct Flash_fwd_params : public Qkv_params {
     int * __restrict__ cu_seqlens_q;
     int * __restrict__ cu_seqlens_k;
     int * __restrict__ leftpad_k;
+
+    int * __restrict__ cu_q_blocks;  // [b + 1], cumulative Q blocks per sequence
+    int * __restrict__ cu_k_blocks;  // [b + 1], cumulative K blocks per sequence
 
     // If provided, the actual length of each k sequence.
     int * __restrict__ seqused_k;
@@ -138,6 +141,12 @@ struct Flash_fwd_params : public Qkv_params {
     void * __restrict__ alibi_slopes_ptr;
     index_t alibi_slopes_batch_stride;
 
+    int * __restrict__ edge_bias_tile_offsets;
+    int * __restrict__ edge_bias_tile_k_indices;
+    uint32_t * __restrict__ edge_bias_bitsets;
+    float * __restrict__ edge_bias_scale;
+    int * __restrict__ edge_bias_tile_map;
+
     bool unpadded_lse;  // For varlen paths: LSE is in [nheads, total_seqlen_q] format instead of [b, nheads, seqlen_q].
     bool seqlenq_ngroups_swapped;  // q has been transposed from (b, 1, (nheads_kv ngroups), d) to (b, ngroups, nheads_kv, d).
 };
@@ -179,6 +188,8 @@ struct Flash_bwd_params : public Flash_fwd_params {
 
     // The pointer to the softmax d sum.
     void *__restrict__ dsoftmax_sum;
+
+    float * __restrict__ d_edge_bias_scale;
 
     bool deterministic;
     index_t dq_accum_split_stride;
