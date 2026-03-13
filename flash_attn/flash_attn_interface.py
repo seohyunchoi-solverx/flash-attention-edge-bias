@@ -170,9 +170,9 @@ def _flash_attn_varlen_forward(
     edge_bias_tile_map: Optional[torch.Tensor] = None,
     cu_q_blocks: Optional[torch.Tensor] = None,
     cu_k_blocks: Optional[torch.Tensor] = None,
-    edge_bias_max_k_blocks: Optional[int] = None,
 ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
     q, k, v = [maybe_contiguous(x) for x in (q, k, v)]
+    edge_bias_max_k_blocks = edge_bias_tile_map.shape[1] if edge_bias_tile_map is not None else None
     out, softmax_lse, S_dmask, rng_state = flash_attn_gpu.varlen_fwd(
         q,
         k,
@@ -237,7 +237,6 @@ def _flash_attn_varlen_forward_fake(
     edge_bias_tile_map: Optional[torch.Tensor] = None,
     cu_q_blocks: Optional[torch.Tensor] = None,
     cu_k_blocks: Optional[torch.Tensor] = None,
-    edge_bias_max_k_blocks: Optional[int] = None,
 ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
     q, k, v = [maybe_contiguous(x) for x in (q, k, v)]
     paged_kv = block_table is not None
@@ -389,10 +388,10 @@ def _flash_attn_varlen_backward(
     edge_bias_tile_map: Optional[torch.Tensor] = None,
     cu_q_blocks: Optional[torch.Tensor] = None,
     cu_k_blocks: Optional[torch.Tensor] = None,
-    edge_bias_max_k_blocks: Optional[int] = None,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     # dq, dk, dv are allocated by us so they should already be contiguous
     dout, q, k, v, out = [maybe_contiguous(x) for x in (dout, q, k, v, out)]
+    edge_bias_max_k_blocks = edge_bias_tile_map.shape[1] if edge_bias_tile_map is not None else None
     (
         dq,
         dk,
@@ -470,7 +469,6 @@ def _flash_attn_varlen_backward_fake(
     edge_bias_tile_map: Optional[torch.Tensor] = None,
     cu_q_blocks: Optional[torch.Tensor] = None,
     cu_k_blocks: Optional[torch.Tensor] = None,
-    edge_bias_max_k_blocks: Optional[int] = None,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     dout, q, k, v, out = [maybe_contiguous(x) for x in (dout, q, k, v, out)]
     batch_size = cu_seqlens_q.numel() - 1
@@ -957,6 +955,7 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
         q,
         k,
         v,
+        edge_bias_scale,
         cu_seqlens_q,
         cu_seqlens_k,
         max_seqlen_q,
@@ -974,11 +973,9 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
         edge_bias_tile_offsets,
         edge_bias_tile_k_indices,
         edge_bias_bitsets,
-        edge_bias_scale,
         edge_bias_tile_map,
         cu_q_blocks,
         cu_k_blocks,
-        edge_bias_max_k_blocks,
         edge_bias_bwd,
     ):
         is_grad = is_grad_enabled and any(
@@ -1015,7 +1012,6 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
             edge_bias_tile_map=edge_bias_tile_map,
             cu_q_blocks=cu_q_blocks,
             cu_k_blocks=cu_k_blocks,
-            edge_bias_max_k_blocks=edge_bias_max_k_blocks,
         )
         if is_grad:
             ctx.save_for_backward(
@@ -1034,8 +1030,7 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
             if edge_bias_bwd is not None:
                 (ctx.edge_bias_tile_offsets, ctx.edge_bias_tile_k_indices,
                  ctx.edge_bias_bitsets, ctx.edge_bias_tile_map,
-                 ctx.cu_q_blocks, ctx.cu_k_blocks,
-                 ctx.edge_bias_max_k_blocks) = edge_bias_bwd
+                 ctx.cu_q_blocks, ctx.cu_k_blocks) = edge_bias_bwd
             else:
                 ctx.edge_bias_tile_offsets = edge_bias_tile_offsets
                 ctx.edge_bias_tile_k_indices = edge_bias_tile_k_indices
@@ -1043,7 +1038,6 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
                 ctx.edge_bias_tile_map = edge_bias_tile_map
                 ctx.cu_q_blocks = cu_q_blocks
                 ctx.cu_k_blocks = cu_k_blocks
-                ctx.edge_bias_max_k_blocks = edge_bias_max_k_blocks
 
         out = out_padded[..., :head_size_og]
         return out if not return_softmax else (out, softmax_lse, S_dmask)
@@ -1086,19 +1080,18 @@ class FlashAttnVarlenFunc(torch.autograd.Function):
             edge_bias_tile_map=ctx.edge_bias_tile_map,
             cu_q_blocks=ctx.cu_q_blocks,
             cu_k_blocks=ctx.cu_k_blocks,
-            edge_bias_max_k_blocks=ctx.edge_bias_max_k_blocks,
         )
         dq = dq[..., : dout.shape[-1]]  # We could have padded the head dimension
         dk = dk[..., : dout.shape[-1]]
         dv = dv[..., : dout.shape[-1]]
         d_eb = d_edge_bias_scale if ctx.edge_bias_scale is not None else None
         return (dq, dk, dv,
+                d_eb,  # edge_bias_scale
                 None, None, None, None,  # cu_seqlens_q/k, max_seqlen_q/k
                 None, None, None, None, None,  # dropout_p, softmax_scale, causal, window_size, softcap
                 None, None, None, None, None,  # alibi_slopes, deterministic, return_softmax, block_table, is_grad_enabled
                 None, None, None,  # edge_bias_tile_offsets, tile_k_indices, bitsets
-                d_eb,  # edge_bias_scale
-                None, None, None, None,  # edge_bias_tile_map, cu_q_blocks, cu_k_blocks, edge_bias_max_k_blocks
+                None, None, None,  # edge_bias_tile_map, cu_q_blocks, cu_k_blocks
                 None)  # edge_bias_bwd
 
 
@@ -1482,6 +1475,7 @@ def flash_attn_varlen_func(
     cu_seqlens_k,
     max_seqlen_q,
     max_seqlen_k,
+    edge_bias_scale=None,
     dropout_p=0.0,
     softmax_scale=None,
     causal=False,
@@ -1494,11 +1488,9 @@ def flash_attn_varlen_func(
     edge_bias_tile_offsets=None,
     edge_bias_tile_k_indices=None,
     edge_bias_bitsets=None,
-    edge_bias_scale=None,
     edge_bias_tile_map=None,
     cu_q_blocks=None,
     cu_k_blocks=None,
-    edge_bias_max_k_blocks=None,
     edge_bias_bwd=None,
 ):
     """dropout_p should be set to 0.0 during evaluation
@@ -1548,8 +1540,8 @@ def flash_attn_varlen_func(
            testing only. The returned probabilities are not guaranteed to be correct
            (they might not have the right scaling).
         edge_bias_bwd: optional tuple of (tile_offsets, tile_k_indices, bitsets,
-            tile_map, cu_q_blocks, cu_k_blocks, max_k_blocks) built with backward
-            kernel block sizes.  When None, backward reuses the forward edge bias.
+            tile_map, cu_q_blocks, cu_k_blocks) built with backward kernel block sizes.
+            When None, backward reuses the forward edge bias.
     Return:
         out: (total, nheads, headdim).
         softmax_lse [optional, if return_attn_probs=True]: (nheads, total_q_seqlen). The
@@ -1563,6 +1555,7 @@ def flash_attn_varlen_func(
         q,
         k,
         v,
+        edge_bias_scale,
         cu_seqlens_q,
         cu_seqlens_k,
         max_seqlen_q,
@@ -1580,11 +1573,9 @@ def flash_attn_varlen_func(
         edge_bias_tile_offsets,
         edge_bias_tile_k_indices,
         edge_bias_bitsets,
-        edge_bias_scale,
         edge_bias_tile_map,
         cu_q_blocks,
         cu_k_blocks,
-        edge_bias_max_k_blocks,
         edge_bias_bwd,
     )
 

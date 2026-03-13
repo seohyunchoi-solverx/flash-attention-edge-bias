@@ -297,7 +297,6 @@ def test_flash_vs_vanilla_edge_bias_forward():
 
     tile_offsets, tile_k_indices, bitsets, tile_map, cu_q_blocks, cu_k_blocks = \
         build_edge_bias_bitset(edge_index, cu_seqlens, max_seqlen)
-    max_k_blocks = tile_map.shape[1]
 
     out_flash = flash_attn_varlen_func(
         q, k, v,
@@ -314,7 +313,6 @@ def test_flash_vs_vanilla_edge_bias_forward():
         edge_bias_tile_map=tile_map,
         cu_q_blocks=cu_q_blocks,
         cu_k_blocks=cu_k_blocks,
-        edge_bias_max_k_blocks=max_k_blocks,
     )
 
     out_vanilla = vanilla_attention_varlen(
@@ -347,7 +345,6 @@ def test_flash_vs_vanilla_edge_bias_backward():
 
     tile_offsets, tile_k_indices, bitsets, tile_map, cu_q_blocks, cu_k_blocks = \
         build_edge_bias_bitset(edge_index, cu_seqlens, max_seqlen)
-    max_k_blocks = tile_map.shape[1]
 
     # --- Flash path ---
     q_f = q.clone().detach().requires_grad_(True)
@@ -370,7 +367,6 @@ def test_flash_vs_vanilla_edge_bias_backward():
         edge_bias_tile_map=tile_map,
         cu_q_blocks=cu_q_blocks,
         cu_k_blocks=cu_k_blocks,
-        edge_bias_max_k_blocks=max_k_blocks,
     )
     loss_flash = out_flash.float().sum()
     loss_flash.backward()
@@ -425,7 +421,6 @@ def test_flash_vs_vanilla_edge_bias_no_edges():
 
     tile_offsets, tile_k_indices, bitsets, tile_map, cu_q_blocks, cu_k_blocks = \
         build_edge_bias_bitset(edge_index, cu_seqlens, max_seqlen)
-    max_k_blocks = tile_map.shape[1]
 
     out_with_bias = flash_attn_varlen_func(
         q, k, v,
@@ -442,7 +437,6 @@ def test_flash_vs_vanilla_edge_bias_no_edges():
         edge_bias_tile_map=tile_map,
         cu_q_blocks=cu_q_blocks,
         cu_k_blocks=cu_k_blocks,
-        edge_bias_max_k_blocks=max_k_blocks,
     )
 
     out_no_bias = flash_attn_varlen_func(
