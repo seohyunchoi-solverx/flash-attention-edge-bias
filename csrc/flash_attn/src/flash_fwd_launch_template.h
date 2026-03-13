@@ -311,4 +311,101 @@ void run_mha_fwd_hdim256(Flash_fwd_params &params, cudaStream_t stream) {
         // run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 32, 8, false, false, T>, Is_dropout, Is_causal>(params, stream);
     });
 }
+// ==================== Edge Bias Isolated Kernels ====================
+// Compiled in separate .cu files to avoid register pressure from
+// combinatorial template explosion with other BOOL_SWITCHes.
+
+template<typename Kernel_traits, bool Is_dropout, bool Is_causal>
+void run_flash_fwd_edge_bias(Flash_fwd_params &params, cudaStream_t stream) {
+    constexpr size_t smem_size = Kernel_traits::kSmemSize;
+    const int num_m_block = (params.seqlen_q + Kernel_traits::kBlockM - 1) / Kernel_traits::kBlockM;
+    dim3 grid(num_m_block, params.b, params.h);
+    const bool is_even_MN = params.cu_seqlens_q == nullptr && params.cu_seqlens_k == nullptr && params.seqlen_k % Kernel_traits::kBlockN == 0 && params.seqlen_q % Kernel_traits::kBlockM == 0;
+    const bool is_even_K = params.d == Kernel_traits::kHeadDim;
+    const bool return_softmax = params.p_ptr != nullptr;
+    BOOL_SWITCH(is_even_MN, IsEvenMNConst, [&] {
+        EVENK_SWITCH(is_even_K, IsEvenKConst, [&] {
+            LOCAL_SWITCH((params.window_size_left >= 0 || params.window_size_right >= 0) && !Is_causal, Is_local, [&] {
+                BOOL_SWITCH(return_softmax, ReturnSoftmaxConst, [&] {
+                    ALIBI_SWITCH(params.alibi_slopes_ptr != nullptr, Has_alibi, [&] {
+                        SOFTCAP_SWITCH(params.softcap > 0.0, Is_softcap, [&] {
+                            constexpr static bool Has_edge_bias = true;
+                            auto kernel = &flash_fwd_kernel<Kernel_traits, Is_dropout && !Is_softcap, Is_causal, Is_local && !Is_causal, Has_alibi, IsEvenMNConst && IsEvenKConst && !Is_local && !Has_alibi && !ReturnSoftmaxConst && Kernel_traits::kHeadDim <= 128, IsEvenKConst && !ReturnSoftmaxConst && !Has_alibi, Is_softcap, ReturnSoftmaxConst && Is_dropout && !Is_softcap, Has_edge_bias>;
+                            constexpr size_t kBitsetBytes = Kernel_traits::kBlockM * Kernel_traits::kBlockN / 8;
+                            constexpr size_t smem_size_edge = (smem_size + 15) & ~15;
+                            constexpr size_t smem_total = smem_size_edge + kBitsetBytes;
+                            if (smem_total >= 48 * 1024) {
+                                C10_CUDA_CHECK(cudaFuncSetAttribute(
+                                    kernel, cudaFuncAttributeMaxDynamicSharedMemorySize, smem_total));
+                            }
+                            kernel<<<grid, Kernel_traits::kNThreads, smem_total, stream>>>(params);
+                            C10_CUDA_KERNEL_LAUNCH_CHECK();
+                        });
+                    });
+                });
+            });
+        });
+    });
+}
+
+template<typename T, bool Is_causal>
+void run_mha_fwd_edge_bias_hdim32(Flash_fwd_params &params, cudaStream_t stream) {
+    constexpr static int Headdim = 32;
+    DROPOUT_SWITCH(params.p_dropout < 1.f, Is_dropout, [&] {
+        run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 128, 128, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+    });
+}
+
+template<typename T, bool Is_causal>
+void run_mha_fwd_edge_bias_hdim64(Flash_fwd_params &params, cudaStream_t stream) {
+    constexpr static int Headdim = 64;
+    DROPOUT_SWITCH(params.p_dropout < 1.f, Is_dropout, [&] {
+        if constexpr(!Is_dropout) {
+            run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 128, 128, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+        } else {
+            run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+        }
+    });
+}
+
+template<typename T, bool Is_causal>
+void run_mha_fwd_edge_bias_hdim96(Flash_fwd_params &params, cudaStream_t stream) {
+    constexpr static int Headdim = 96;
+    DROPOUT_SWITCH(params.p_dropout < 1.f, Is_dropout, [&] {
+        run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+    });
+}
+
+template<typename T, bool Is_causal>
+void run_mha_fwd_edge_bias_hdim128(Flash_fwd_params &params, cudaStream_t stream) {
+    constexpr static int Headdim = 128;
+    DROPOUT_SWITCH(params.p_dropout < 1.f, Is_dropout, [&] {
+        if constexpr(!Is_dropout) {
+            run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+        } else {
+            run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+        }
+    });
+}
+
+template<typename T, bool Is_causal>
+void run_mha_fwd_edge_bias_hdim192(Flash_fwd_params &params, cudaStream_t stream) {
+    constexpr static int Headdim = 192;
+    DROPOUT_SWITCH(params.p_dropout < 1.f, Is_dropout, [&] {
+        if constexpr(!Is_dropout) {
+            run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 128, 64, 8, false, false, T>, Is_dropout, Is_causal>(params, stream);
+        } else {
+            run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+        }
+    });
+}
+
+template<typename T, bool Is_causal>
+void run_mha_fwd_edge_bias_hdim256(Flash_fwd_params &params, cudaStream_t stream) {
+    constexpr static int Headdim = 256;
+    DROPOUT_SWITCH(params.p_dropout < 1.f, Is_dropout, [&] {
+        run_flash_fwd_edge_bias<Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+    });
+}
+
 }  // namespace FLASH_NAMESPACE

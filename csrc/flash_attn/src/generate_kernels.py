@@ -26,6 +26,18 @@ void run_mha_fwd_<{DTYPE}, {HEAD_DIM}, {IS_CAUSAL}>(Flash_fwd_params &params, cu
 
 }} // namespace FLASH_NAMESPACE"""
 
+def get_fwd_edge_bias_template() -> str:
+    return NAMESPACE_INCLUDE + """#include "flash_fwd_launch_template.h"
+
+namespace FLASH_NAMESPACE {{
+
+template<>
+void run_mha_fwd_edge_bias_<{DTYPE}, {HEAD_DIM}, {IS_CAUSAL}>(Flash_fwd_params &params, cudaStream_t stream) {{
+    run_mha_fwd_edge_bias_hdim{HEAD_DIM}<{DTYPE}, {IS_CAUSAL}>(params, stream);
+}}
+
+}} // namespace FLASH_NAMESPACE"""
+
 def get_fwd_split_template() -> str:
     return NAMESPACE_INCLUDE + """#include "flash_fwd_launch_template.h"
 
@@ -47,6 +59,18 @@ void run_mha_bwd_<{DTYPE}, {HEAD_DIM}, {IS_CAUSAL}>(Flash_bwd_params &params, cu
 
 }} // namespace FLASH_NAMESPACE"""
 
+def get_bwd_edge_bias_template() -> str:
+    return NAMESPACE_INCLUDE + """#include "flash_bwd_launch_template.h"
+
+namespace FLASH_NAMESPACE {{
+
+template<>
+void run_mha_bwd_edge_bias_<{DTYPE}, {HEAD_DIM}, {IS_CAUSAL}>(Flash_bwd_params &params, cudaStream_t stream) {{
+    run_mha_bwd_edge_bias_hdim{HEAD_DIM}<{DTYPE}, {IS_CAUSAL}>(params, stream);
+}}
+
+}} // namespace FLASH_NAMESPACE"""
+
 @dataclass
 class Kernel:
     sm: int
@@ -60,7 +84,9 @@ class Kernel:
         template_funcs = {
             "fwd": get_fwd_template,
             "bwd": get_bwd_template,
-            "fwd_split": get_fwd_split_template
+            "fwd_split": get_fwd_split_template,
+            "fwd_edge_bias": get_fwd_edge_bias_template,
+            "bwd_edge_bias": get_bwd_edge_bias_template,
         }
         template_func = template_funcs[self.direction]
         return template_func().format(
@@ -74,7 +100,7 @@ class Kernel:
         return f"flash_{self.direction}_hdim{self.head_dim}_{self.dtype}_{'causal_' if self.is_causal == 'true' else ''}sm{self.sm}.cu"
 
 def get_all_kernels() -> List[Kernel]:
-    for direction in ["fwd", "fwd_split", "bwd"]:
+    for direction in ["fwd", "fwd_split", "bwd", "fwd_edge_bias", "bwd_edge_bias"]:
         for dtype, head_dim, is_causal, sm in itertools.product(DTYPE_MAP.keys(), HEAD_DIMENSIONS, IS_CAUSAL, SM):
             yield Kernel(sm=sm, dtype=dtype, head_dim=head_dim, is_causal=is_causal, direction=direction)
 
